@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Most Special Friend 🌸</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Great+Vibes&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary: #ff758c;
+            --primary-hover: #ff4e6a;
+            --secondary: #ff7eb3;
+            --bg-start: #ffdde1;
+            --bg-end: #ee9ca7;
+            --glass-bg: rgba(255, 255, 255, 0.88);
+            --text-main: #333333;
+            --accent-glow: rgba(255, 117, 140, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts Background Animation */
+        .heart-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .heart-particle {
+            position: absolute;
+            color: rgba(255, 117, 140, 0.25);
+            font-size: 20px;
+            animation: floatUp 8s linear infinite;
+            bottom: -30px;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* App Container Card */
+        .app-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            width: 100%;
+            max-width: 480px;
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transition: all 0.4s ease;
+        }
+
+        /* Ambient Music Control */
+        .music-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid rgba(255, 117, 140, 0.3);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .music-btn:active { transform: scale(0.9); }
+
+        /* Slide Transition System */
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .slide.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Titles & Typography */
+        h1 {
+            color: #d63384;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+
+        p.description {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Custom Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 25px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px var(--accent-glow);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.5);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* SLIDE 1: Apology & Gussa Slider */
+        .avatar-box {
+            font-size: 70px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .slider-wrapper {
+            background: #fff0f5;
+            padding: 15px;
+            border-radius: 20px;
+            margin: 15px 0 25px 0;
+            border: 1px solid rgba(255, 182, 193, 0.5);
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .interactive-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+            min-height: 55px;
+        }
+
+        #angryBtn {
+            position: absolute;
+            transition: all 0.2s ease-out;
+        }
+
+        /* SLIDE 2: Interactive Flip Cards (The 3 Moments) */
+        .moments-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        .moment-card {
+            background: white;
+            border-radius: 18px;
+            padding: 18px;
+            border: 1px solid #ffe3ec;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .moment-card::before {
+            content: '✨ Click To Reveal';
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--primary);
+            background: #fff0f5;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        .moment-card.revealed::before { content: '💖 Revealed'; background: #e8f5e9; color: #2e7d32; }
+
+        .card-title {
+            font-weight: bold;
+            color: #d63384;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .card-text {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .card-placeholder {
+            color: #aaa;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        /* SLIDE 3: Fix Her Smile Interactive Challenge */
+        .avatar-builder {
+            background: #fff5f8;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .character-display {
+            font-size: 80px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .chip-btn {
+            background: white;
+            border: 1px solid #ffccd5;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px var(--accent-glow);
+        }
+
+        /* SLIDE 4: Scratch Card & Special Message */
+        .scratch-container {
+            position: relative;
+            width: 100%;
+            max-width: 340px;
+            height: 180px;
+            margin: 15px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .scratch-secret {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            border: 2px dashed var(--primary);
+        }
+
+        .scratch-secret p {
+            color: #d63384;
+            font-size: 14px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        #scratchCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            touch-action: none;
+            z-index: 5;
+        }
+
+        /* SLIDE 5: Virtual Hug & Treaty Celebration */
+        .hug-box {
+            font-size: 90px;
+            animation: pulse 1.5s infinite alternate ease-in-out;
+            margin: 10px 0;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
+        }
+
+        .treaty-box {
+            background: #fff8fa;
+            border: 2px solid #ffccd5;
+            padding: 16px;
+            border-radius: 18px;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .footer-counter {
+            font-size: 12px;
+            color: #a0a0a0;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Background Hearts -->
+    <div class="heart-bg" id="heartBg"></div>
+
+    <!-- Main Application Card -->
+    <div class="app-card">
+        <!-- Audio Music Toggle -->
+        <button class="music-btn" id="musicToggle" title="Play Music">🎵</button>
+        <audio id="bgMusic" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3"></audio>
+
+        <!-- ================= SLIDE 1: Apology & Gussa Slider ================= -->
+        <div class="slide active" id="slide1">
+            <div class="avatar-box" id="avatarEmoji">😡</div>
+            <h1>Gussa Mat Ho Na... 🥺</h1>
+            <p class="description">Mujhe pata hai aap bohot zyada gusse mein ho, lekin meri zindagi mein aap sab se special ho! Agar meri wajah se gussa ho toh SORRY! ❤️</p>
+
+            <div class="slider-wrapper">
+                <div class="slider-label">
+                    <span>Gussa Level: <b id="gussaText" style="color:#d63384;">100% Extreme</b></span>
+                </div>
+                <input type="range" id="gussaSlider" min="0" max="100" value="100">
+            </div>
+
+            <div class="interactive-buttons" id="btnContainer">
+                <button class="btn" onclick="goToSlide(2)">Maaf Kiya! 🥰</button>
+                <button class="btn btn-secondary" id="angryBtn" onmouseover="moveAngryBtn()" onclick="moveAngryBtn()">Still Angry? 😤</button>
+            </div>
+            <div class="footer-counter">Slide 1 / 5 • Apology Intro</div>
+        </div>
+
+        <!-- ================= SLIDE 2: 3 Special Moments ================= -->
+        <div class="slide" id="slide2">
+            <h1>Pyare Moments & Memories ✨</h1>
+            <p class="description">Har card par click karein aur dekhein ke aap mere liye kitni special hain:</p>
+
+            <div class="moments-container">
+                <!-- Moment 1 -->
+                <div class="moment-card" onclick="revealCard(this)">
+                    <div class="card-title">📱 Moment 1: Front Camera Magic</div>
+                    <div class="card-placeholder">Click to open this secret note...</div>
+                    <div class="card-text">
+                        "Jab aap smile karti hain toh aap front camera dekha karein... woh bhi aapki smile ka deewana ho jata hai!" 💖
+                    </div>
+                </div>
+
+                <!-- Moment 2 -->
+                <div class="moment-card" onclick="revealCard(this)">
+                    <div class="card-title">👑 Moment 2: The Real Queen</div>
+                    <div class="card-placeholder">Click to open this secret note...</div>
+                    <div class="card-text">
+                        "Jab aap apne haathon mein, apne leg mein, apne neck mein, apne head mein tayyar hoti hain aur final apne head par crown rakhti hain... toh waqt aur saari khoobsurati fail ho jaati hai!" ✨
+                    </div>
+                </div>
+
+                <!-- Moment 3 -->
+                <div class="moment-card" onclick="revealCard(this)">
+                    <div class="card-title">🌸 Moment 3: Jannat Ka Baagh</div>
+                    <div class="card-placeholder">Click to open this secret note...</div>
+                    <div class="card-text">
+                        "Jab aap hasti hain toh Allah Pak jannat mein aapke liye ek baagh banata hai jahan khoobsurat khoobsurat se flowers hote hain, aur unhe kaha jata hai: 'Dekhlo meri pasandida bandi ne aaj muskuraya hai, toh uski khoobsurati yahan laga raha hoon!'" 🌿💖
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="goToSlide(3)">Agay Chalein ➔</button>
+            <div class="footer-counter">Slide 2 / 5 • Special Memories</div>
+        </div>
+
+        <!-- ================= SLIDE 3: Fix Her Smile Game ================= -->
+        <div class="slide" id="slide3">
+            <h1>Fix Your Smile Challenge 🎨</h1>
+            <p class="description">Apni pyaari smile aur glow ko waapas laane ke liye buttons toggle karein:</p>
+
+            <div class="avatar-builder">
+                <div class="character-display" id="avatarDisplay">😠</div>
+                <div class="toggle-group">
+                    <button class="chip-btn" id="chipSmile" onclick="toggleFeature('smile')">✨ Add Smile</button>
+                    <button class="chip-btn" id="chipSparkle" onclick="toggleFeature('sparkle')">💖 Add Sparkles</button>
+                    <button class="chip-btn" id="chipCrown" onclick="toggleFeature('crown')">👑 Queen Crown</button>
+                </div>
+            </div>
+
+            <button class="btn" id="slide3Next" onclick="goToSlide(4)" style="display:none;">Waah! Ab Badi Si Smile Aa Gayi! ➔</button>
+            <div class="footer-counter">Slide 3 / 5 • Interactive Challenge</div>
+        </div>
+
+        <!-- ================= SLIDE 4: Scratch Card Note ================= -->
+        <div class="slide" id="slide4">
+            <h1>Special Secret Note 🎁</h1>
+            <p class="description">Apne finger ya mouse se card scratch karein aur hidden message read karein:</p>
+
+            <div class="scratch-container">
+                <div class="scratch-secret">
+                    <p>Madaam, aap kitni pyari hain! Yeh gussa bhi aap par accha lag raha hai, par ise zyada der face par mat rakhein... jaldi se smile karein aur khush ho jayein! 🌸💖</p>
+                </div>
+                <canvas id="scratchCanvas"></canvas>
+            </div>
+
+            <button class="btn" id="slide4Next" onclick="goToSlide(5)">Final Surprise ➔</button>
+            <div class="footer-counter">Slide 4 / 5 • Scratch Note</div>
+        </div>
+
+        <!-- ================= SLIDE 5: Virtual Hug & Final Treaty ================= -->
+        <div class="slide" id="slide5">
+            <div class="hug-box">🫂💖</div>
+            <h1>Peace Treaty Signed! 📜</h1>
+            <div class="treaty-box">
+                <b>Friendship Agreement:</b><br>
+                Aapka saara gussa official taur par khatam ho chuka hai! Ab se bina waja naraz hona manaa hai. Aapki muskuraahat sab se zaroori hai! ☕🍦
+            </div>
+
+            <button class="btn" onclick="celebrateAndReply()">Maan Gayi Hoon! 🥰 (Send Reply)</button>
+            <div class="footer-counter">Slide 5 / 5 • Final Celebration</div>
+        </div>
+    </div>
+
+    <!-- JavaScript Engine -->
+    <script>
+        // 1. Floating Hearts Background Engine
+        const heartBg = document.getElementById('heartBg');
+        const heartIcons = ['❤️', '💖', '🌸', '✨', '💕', '🌷'];
+        
+        for (let i = 0; i < 22; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (5 + Math.random() * 6) + 's';
+            heart.style.animationDelay = (Math.random() * 5) + 's';
+            heart.style.fontSize = (16 + Math.random() * 18) + 'px';
+            heartBg.appendChild(heart);
+        }
+
+        // 2. Navigation System
+        function goToSlide(slideNumber) {
+            document.querySelectorAll('.slide').forEach(slide => slide.classList.remove('active'));
+            const target = document.getElementById('slide' + slideNumber);
+            if (target) {
+                target.classList.add('active');
+                if (slideNumber === 4) initScratchCard();
+                if (slideNumber === 5) launchConfetti();
+            }
+        }
+
+        // 3. Slide 1 Logic (Gussa Slider & Dodging Button)
+        const gussaSlider = document.getElementById('gussaSlider');
+        const g
